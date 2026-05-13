@@ -1,0 +1,16 @@
+[package]
+name = "transmute"
+version = "0.1.0"
+edition = "2024"
+description = "Multi-format document conversion toolkit (txt, epub, pdf, doc)"
+
+[lib]
+name = "transmute"
+path = "src/lib.rs"
+
+[[bin]]
+name = "transmute"
+path = "src/main.rs"
+
+[dependencies]
+zip = "2"
