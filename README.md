@@ -1,7 +1,7 @@
-# transmute
+# transmute · txt ↔ epub converter
 
-Multi-format document conversion toolkit.  
-Currently: **txt ↔ epub** (EPUB 3.3).
+**txt2epub** · **epub2txt** — bidirectional document conversion toolkit.  
+Outputs EPUB 3.3 with auto-generated SVG cover.
 
 ## Install
 
