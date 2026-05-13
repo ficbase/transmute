@@ -2,7 +2,7 @@
 name = "transmute"
 version = "0.1.0"
 edition = "2024"
-description = "Multi-format document conversion toolkit (txt, epub, pdf, doc)"
+description = "Multi-format document converter (text to epub, epub to txt, txt2epub, epub2txt) — EPUB 3.3 output with SVG cover, smart chapter detection"
 
 [lib]
 name = "transmute"
