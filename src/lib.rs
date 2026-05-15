@@ -633,8 +633,8 @@ pub fn html_to_text(html: &str) -> String {
         if c == '>' && skip > 0 {
             skip -= 1;
             // Check what tag just closed using the ring buffer
-            let i = ri.wrapping_sub(1) % 5;
-            let prev4 = |n: usize| ring[(i.wrapping_sub(n)) % 5];
+            let i = (ri + 4) % 5; // ri-1, safe for usize
+            let prev4 = |n: usize| ring[(i + 5 - n) % 5];
             let is_br =
                 // <br>
                 (prev4(1) == 'r' && prev4(2) == 'b' && prev4(3) == '<')
