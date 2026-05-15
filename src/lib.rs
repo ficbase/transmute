@@ -660,7 +660,7 @@ pub fn html_to_text(html: &str) -> String {
         result.push(c);
         prev = c;
     }
-    let result = result.trim().to_string();
+    let result = result.trim_end().to_string();
     collapse_newlines(&result)
 }
 

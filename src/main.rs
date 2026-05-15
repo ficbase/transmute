@@ -282,8 +282,8 @@ fn epub_to_txt(input: &PathBuf, output: &PathBuf) {
             txt.push('\n');
 
             for ch in &book.chapters {
-                txt.push_str(&format!("{}\n\n", ch.title));
-                txt.push_str(ch.body.trim());
+                txt.push_str(&format!("{}\n", ch.title));
+                txt.push_str(ch.body.trim_end());
                 txt.push_str("\n\n");
             }
 
