@@ -613,7 +613,7 @@ fn parse_xhtml(xhtml: &str) -> (String, String) {
 
 /// Strip HTML tags for plain text output.
 pub fn html_to_text(html: &str) -> String {
-    let squashed = html.replace('\n', " ");
+    let squashed = html.replace('\n', "");
     let mut out = String::with_capacity(squashed.len());
     let mut skip = 0u32;
     // Keep a small ring buffer of the last 5 chars to detect tag endings
