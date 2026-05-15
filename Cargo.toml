@@ -12,6 +12,13 @@ path = "src/lib.rs"
 name = "transmute"
 path = "src/main.rs"
 
+[[bin]]
+name = "transmute-gui"
+path = "src/gui.rs"
+
 [dependencies]
+eframe = "0.31"
+egui = "0.31"
 encoding_rs = "0.8"
+rfd = "0.15"
 zip = "2"
