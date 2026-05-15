@@ -13,4 +13,5 @@ name = "transmute"
 path = "src/main.rs"
 
 [dependencies]
+encoding_rs = "0.8"
 zip = "2"

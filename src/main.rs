@@ -63,12 +63,45 @@ fn main() {
     }
 }
 
+/// Read a text file with automatic encoding detection.
+/// Tries BOM → UTF-8 validation → GBK fallback.
+fn auto_decode(path: &std::path::Path) -> Result<String, String> {
+    use encoding_rs::Encoding;
+    let raw = std::fs::read(path).map_err(|e| format!("Failed to read {}: {}", path.display(), e))?;
+
+    // 1. Check BOM
+    if raw.len() >= 3 && raw[0] == 0xEF && raw[1] == 0xBB && raw[2] == 0xBF {
+        return Ok(Encoding::for_label(b"utf-8").unwrap()
+            .decode_without_bom_handling(&raw[3..]).0.into_owned());
+    }
+    if raw.len() >= 2 && raw[0] == 0xFF && raw[1] == 0xFE {
+        return Ok(Encoding::for_label(b"utf-16le").unwrap()
+            .decode_without_bom_handling(&raw[2..]).0.into_owned());
+    }
+    if raw.len() >= 2 && raw[0] == 0xFE && raw[1] == 0xFF {
+        return Ok(Encoding::for_label(b"utf-16be").unwrap()
+            .decode_without_bom_handling(&raw[2..]).0.into_owned());
+    }
+
+    // 2. Try UTF-8 — validate by decoding
+    let utf8 = Encoding::for_label(b"utf-8").unwrap();
+    let (cow, _, had_errors) = utf8.decode(&raw);
+    if !had_errors {
+        return Ok(cow.into_owned());
+    }
+
+    // 3. Fall back to GBK (most common for Chinese txt files)
+    let gbk = Encoding::for_label(b"gbk").unwrap();
+    let (cow, _, _) = gbk.decode(&raw);
+    Ok(cow.into_owned())
+}
+
 fn txt_to_epub(input: &PathBuf, output: &PathBuf, cover_path: Option<PathBuf>) {
 
-    let text = match std::fs::read_to_string(&input) {
+    let text = match auto_decode(input) {
         Ok(t) => t,
         Err(e) => {
-            eprintln!("Failed to read {}: {}", input.display(), e);
+            eprintln!("{e}");
             std::process::exit(1);
         }
     };
