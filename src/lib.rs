@@ -605,6 +605,8 @@ fn parse_xhtml(xhtml: &str) -> (String, String) {
             body_src.replace_range(start..end + 5, "");
         }
     }
+    // Strip leading whitespace left after removing header tags
+    body_src = body_src.trim_start().to_string();
 
     let body = html_to_text(&body_src);
 
