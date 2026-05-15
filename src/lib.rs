@@ -593,10 +593,10 @@ fn parse_xhtml(xhtml: &str) -> (String, String) {
 
     // Remove <h1>...</h1> and <title>...</title> from body to avoid title duplication
     let mut body_src = xhtml.to_string();
-    // strip <title>...</title>
-    if let Some(start) = body_src.find("<title>") {
-        if let Some(end) = body_src.find("</title>") {
-            body_src.replace_range(start..end + 8, "");
+    // strip <head>...</head>
+    if let Some(start) = body_src.find("<head>") {
+        if let Some(end) = body_src.find("</head>") {
+            body_src.replace_range(start..end + 7, "");
         }
     }
     // strip <h1>...</h1>
@@ -605,7 +605,14 @@ fn parse_xhtml(xhtml: &str) -> (String, String) {
             body_src.replace_range(start..end + 5, "");
         }
     }
-    // Strip leading whitespace left after removing header tags
+    // Strip <body> tag and leading whitespace
+    if let Some(start) = body_src.find("<body>") {
+        body_src.replace_range(..start + 6, "");
+    } else if let Some(start) = body_src.find("<body ") {
+        if let Some(end) = body_src[start..].find('>') {
+            body_src.replace_range(..start + end + 1, "");
+        }
+    }
     body_src = body_src.trim_start().to_string();
 
     let body = html_to_text(&body_src);
