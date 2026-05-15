@@ -38,7 +38,8 @@ transmute novel.epub novel.txt
 - **Auto-generated SVG cover** — dark theme with title & author
 - **Smart chapter detection** — Arabic (`第1章`), Chinese (`第一章`, `第八十四章`), parts/volumes (`第一部`, `第X卷`), Markdown (`# Title`)
 - **Metadata extraction** — auto-detects title (`《书名》`) and author (`作者：XXX`)
-- **Preserves indentation** — full-width spaces kept intact
+- **Auto encoding detection** — BOM → UTF-8 validation → GBK fallback, works with legacy Chinese txt files
+- **Preserves indentation** — full-width spaces (`　　`) kept intact in roundtrip
 
 ## As a library
 
