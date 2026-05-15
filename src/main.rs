@@ -283,14 +283,7 @@ fn epub_to_txt(input: &PathBuf, output: &PathBuf) {
 
             for ch in &book.chapters {
                 txt.push_str(&format!("{}\n\n", ch.title));
-                let mut clean = String::with_capacity(ch.body.len());
-                let mut skip = false;
-                for c in ch.body.chars() {
-                    if c == '<' { skip = true; continue; }
-                    if c == '>' { skip = false; continue; }
-                    if !skip { clean.push(c); }
-                }
-                txt.push_str(&clean.trim());
+                txt.push_str(ch.body.trim());
                 txt.push_str("\n\n");
             }
 
